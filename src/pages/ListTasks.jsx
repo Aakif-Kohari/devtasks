@@ -1,43 +1,47 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 const ListTasks = () => {
   const [tasks, setTasks] = useState([]);
 
-  // Load tasks from localStorage
   useEffect(() => {
-    const savedTasks = localStorage.getItem('tasks');
-
+    const savedTasks = localStorage.getItem("tasks");
     if (savedTasks) {
       setTasks(JSON.parse(savedTasks));
     }
   }, []);
 
-  // Delete task
   const deleteTask = (id) => {
     const updatedTasks = tasks.filter((task) => task.id !== id);
-
     setTasks(updatedTasks);
-
-    localStorage.setItem('tasks', JSON.stringify(updatedTasks));
+    localStorage.setItem("tasks", JSON.stringify(updatedTasks));
+    toast.warning("Task permanently removed.", {
+      style: { background: "#000000", color: "#ffffff" },
+    });
   };
 
-  // Toggle completed
   const toggleComplete = (id) => {
     const updatedTasks = tasks.map((task) =>
-      task.id === id
-        ? { ...task, completed: !task.completed }
-        : task
+      task.id === id ? { ...task, completed: !task.completed } : task,
     );
-
     setTasks(updatedTasks);
+    localStorage.setItem("tasks", JSON.stringify(updatedTasks));
 
-    localStorage.setItem('tasks', JSON.stringify(updatedTasks));
+    const task = tasks.find((task) => task.id === id);
+    if (task.completed) {
+      toast.info("Task re-opened.", {
+        style: { background: "#000000", color: "#ffffff" },
+      });
+    } else {
+      toast.info("Task marked as complete.", {
+        style: { background: "#000000", color: "#ffffff" },
+      });
+    }
   };
 
   return (
     <div className="min-h-screen bg-[#FDFDFD] p-6 font-sans">
       <div className="max-w-2xl mx-auto bg-white rounded-4xl shadow-lg p-8 border border-neutral-100">
-        
         <h1 className="text-3xl font-black text-black mb-8 text-center uppercase">
           Task List
         </h1>
@@ -54,19 +58,17 @@ const ListTasks = () => {
                 className="flex items-center justify-between bg-neutral-50 rounded-2xl p-4 shadow-sm"
               >
                 <div className="flex items-center gap-4">
-                  
                   <input
                     type="checkbox"
                     checked={task.completed}
                     onChange={() => toggleComplete(task.id)}
                     className="w-5 h-5 accent-black cursor-pointer"
                   />
-
                   <span
                     className={`font-semibold text-lg ${
                       task.completed
-                        ? 'line-through text-neutral-400'
-                        : 'text-black'
+                        ? "line-through text-neutral-400"
+                        : "text-black"
                     }`}
                   >
                     {task.text}

@@ -1,22 +1,20 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { toast } from "sonner";
 
 const AddTasks = () => {
-  const [task, setTask] = useState('');
+  const [task, setTask] = useState("");
   const [tasks, setTasks] = useState([]);
 
-  // Load tasks from localStorage on component mount
   useEffect(() => {
-    const savedTasks = localStorage.getItem('tasks');
-
+    const savedTasks = localStorage.getItem("tasks");
     if (savedTasks) {
       setTasks(JSON.parse(savedTasks));
     }
   }, []);
 
-  // Save tasks whenever tasks change
   useEffect(() => {
-    localStorage.setItem('tasks', JSON.stringify(tasks));
+    localStorage.setItem("tasks", JSON.stringify(tasks));
   }, [tasks]);
 
   const handleSubmit = (e) => {
@@ -32,22 +30,33 @@ const AddTasks = () => {
 
     setTasks([...tasks, newTask]);
 
-    console.log('Task added:', newTask);
+    toast.success("Task successfully added to roadmap.", {
+      style: { background: "#000000", color: "#ffffff" },
+    });
 
-    setTask('');
+    setTask("");
   };
 
   return (
     <div className="min-h-screen bg-[#FDFDFD] flex items-center justify-center p-6 selection:bg-black selection:text-white font-sans">
       <div className="w-full max-w-[480px] bg-white rounded-5xl p-12 shadow-[0_50px_100px_-20px_rgba(0,0,0,0.06)] border border-neutral-100 flex flex-col items-center text-center relative overflow-hidden">
-        
         {/* Top Accent */}
         <div className="absolute top-0 left-0 w-full h-1.5 bg-black"></div>
 
         {/* Icon Header */}
         <div className="w-20 h-20 bg-black rounded-3xl flex items-center justify-center mb-10 shadow-2xl shadow-black/20 group hover:scale-105 transition-transform duration-500 cursor-pointer">
-          <svg className="w-10 h-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" />
+          <svg
+            className="w-10 h-10 text-white"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2.5}
+              d="M12 4v16m8-8H4"
+            />
           </svg>
         </div>
 
@@ -115,7 +124,6 @@ const AddTasks = () => {
 
       {/* Decorative Blur Elements */}
       <div className="fixed top-[-10%] right-[-10%] w-[40vw] h-[40vw] bg-neutral-100 rounded-full blur-[120px] -z-10 opacity-60"></div>
-
       <div className="fixed bottom-[-10%] left-[-10%] w-[40vw] h-[40vw] bg-neutral-50 rounded-full blur-[120px] -z-10 opacity-60"></div>
     </div>
   );
