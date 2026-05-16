@@ -49,19 +49,7 @@ const AddTasks = () => {
           <ThemeToggle />
         </div>
 
-        {/* Icon Header */}
-        <div className={`w-20 h-20 rounded-3xl flex items-center justify-center mb-10 shadow-2xl shadow-black/20 group hover:scale-105 transition-transform duration-500 cursor-pointer ${dark ? "bg-white" : "bg-black"}`}>
-          <svg
-            className={`w-10 h-10 ${dark ? "text-black" : "text-white"}`}
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" />
-          </svg>
-        </div>
-
-        <div className="space-y-3 mb-12">
+        <div className="space-y-3 mt-5 mb-12">
           <h1 className={`text-4xl font-black tracking-tight uppercase ${dark ? "text-white" : "text-black"}`}>
             Add Task
           </h1>
