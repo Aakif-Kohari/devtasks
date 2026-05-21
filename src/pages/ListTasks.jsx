@@ -33,21 +33,16 @@ const ListTasks = () => {
   const activeTasks = tasks.filter((task) => !task.completed).length
 
   const completedTasks = tasks.filter((task) => task.completed).length
-  const taskCounts = {
-    ALL: tasks.length,
-    ACTIVE: tasks.filter((task) => !task.completed).length,
-    COMPLETED: tasks.filter((task) => task.completed).length,
-  };
-
-  const startEditing = (task) => {
-    setEditingId(task.id)
-    setEditingText(task.text)
-  }
 
   const taskCounts = {
     ALL: totalTasks,
     ACTIVE: activeTasks,
     COMPLETED: completedTasks,
+  }
+
+  const startEditing = (task) => {
+    setEditingId(task.id)
+    setEditingText(task.text)
   }
   const saveEdit = (id) => {
     const trimmed = editingText.trim()
