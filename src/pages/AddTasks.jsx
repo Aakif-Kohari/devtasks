@@ -31,6 +31,7 @@ const [showInput, setShowInput] = useState(false);
       category,
       priority,
       completed: false,
+      createdAt: new Date().toISOString(),
     };
     setTasks([...tasks, newTask]);
     toast.success("Task successfully added to roadmap.", {
