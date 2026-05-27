@@ -87,6 +87,7 @@ const DeleteHistory = () => {
   const handleExport = () => {
     const tasks = JSON.parse(localStorage.getItem("tasks") || "[]");
     const deletedTasks = JSON.parse(
+      localStorage.getItem("deleted_tasks") || "[]",
       localStorage.getItem("deleted_tasks") || "[]"
     );
     let exportData = [...tasks, ...deletedTasks];
@@ -113,6 +114,10 @@ const DeleteHistory = () => {
         const data = JSON.parse(text);
         if (Array.isArray(data)) {
           const tasks = data.filter(
+            (item) => item.text && item.id && !item.deletedAt,
+          );
+          const deleted = data.filter(
+            (item) => item.text && item.id && item.deletedAt,
             (item) => item.text && item.id && !item.deletedAt
           );
           const deleted = data.filter(
@@ -122,6 +127,22 @@ const DeleteHistory = () => {
           const existingDeleted =
             JSON.parse(localStorage.getItem("deleted_tasks")) || [];
 
+          localStorage.setItem(
+            "tasks",
+            JSON.stringify([...existingTasks, ...tasks]),
+          );
+          localStorage.setItem(
+            "deleted_tasks",
+            JSON.stringify([...existingDeleted, ...deleted]),
+          );
+          setDeletedTasks([...existingDeleted, ...deleted]);
+          toast.success("Data imported successfully");
+        } else {
+          toast.error("Invalid file structure");
+        }
+      } catch (e) {
+        console.error(e);
+        toast.error("Invalid file format");
           // Register custom categories
           const savedCategories = localStorage.getItem("available_categories");
           const currentCategories = savedCategories ? JSON.parse(savedCategories) : ["FEATURE", "BUG", "REFACTOR"];
@@ -157,6 +178,9 @@ const DeleteHistory = () => {
   };
 
   return (
+    /* CORRECTION 1 : min-h-screen, overflow adaptif et réduction du padding global sur mobile */
+    <div
+      className={`min-h-screen md:h-screen w-full font-sans overflow-y-auto md:overflow-hidden flex flex-col p-4 md:p-8 transition-colors duration-300 ${dark ? "bg-black text-white" : "bg-white text-black"}`}
     <div
       className={`min-h-screen md:h-screen w-full font-sans overflow-y-auto md:overflow-hidden flex flex-col p-4 md:p-8 transition-colors duration-300 ${
         dark ? "bg-black text-white" : "bg-white text-black"
@@ -175,6 +199,7 @@ const DeleteHistory = () => {
 
       <div className="max-w-6xl w-full mx-auto flex flex-col h-full">
         {/* Header */}
+        {/* CORRECTION 2 : flex-col sur mobile pour éviter la compression des éléments */}
         <header className="shrink-0 mb-12 flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
           <div className="animate-in fade-in slide-in-from-left duration-700">
             <h1 className="text-4xl font-black uppercase tracking-tighter mb-2">
@@ -203,6 +228,7 @@ const DeleteHistory = () => {
             <div className="max-h-72 overflow-y-auto space-y-3 w-full pr-2">
               {deletedTasks.length === 0 ? (
                 <div
+                  className={`text-center font-medium py-10 border border-dashed rounded-2xl ${dark ? "text-gray-500 border-gray-700" : "text-gray-400 border-gray-200"}`}
                   className={`text-center font-medium py-10 border border-dashed rounded-2xl ${
                     dark ? "text-gray-500 border-gray-700" : "text-gray-400 border-gray-200"
                   }`}
@@ -213,6 +239,7 @@ const DeleteHistory = () => {
                 deletedTasks.map((task) => (
                   <div
                     key={task.id}
+                    /* CORRECTION 3 : flex-col sur mobile pour que le texte et les boutons s'empilent proprement */
                     className={`group border rounded-2xl px-5 py-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 transition-all duration-300 cursor-default ${
                       dark
                         ? "border-white/10 bg-zinc-900 hover:bg-white hover:text-black"
@@ -228,6 +255,7 @@ const DeleteHistory = () => {
                       </span>
                     </div>
 
+                    {/* Ajustement du conteneur d'action pour s'aligner sur mobile */}
                     <div className="text-left sm:text-right flex flex-row sm:flex-col items-center sm:items-end justify-between sm:justify-start w-full sm:w-auto gap-3">
                       <div>
                         <div className="text-xs font-medium text-gray-500 group-hover:text-gray-200 transition-colors duration-300">

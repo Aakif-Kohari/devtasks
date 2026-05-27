@@ -170,6 +170,13 @@ const DataCenter = () => {
         }`}
       />
 
+      {/* BACKGROUND */}
+      <div
+        className={`absolute top-[-120px] right-[-120px] w-[280px] sm:w-[420px] h-[280px] sm:h-[420px] rounded-full blur-3xl opacity-40 ${
+          dark ? "bg-zinc-800" : "bg-neutral-200"
+        }`}
+      />
+
       <div
         className={`absolute bottom-[-120px] left-[-120px] w-[280px] sm:w-[420px] h-[280px] sm:h-[420px] rounded-full blur-3xl opacity-40 ${
           dark ? "bg-zinc-900" : "bg-neutral-100"
