@@ -3,8 +3,9 @@ import { Link } from 'react-router-dom';
 import { toast } from "sonner";
 import { useTheme } from '../context/ThemeContext';
 import ThemeToggle from '../components/ThemeToggle';
-
+import { useNavigate } from "react-router-dom";
 const DeleteHistory = () => {
+  const navigate = useNavigate();
   const { dark } = useTheme();
   const [deletedTasks, setDeletedTasks] = useState(() => {
     const stored = localStorage.getItem('deleted_tasks');
@@ -19,28 +20,60 @@ const DeleteHistory = () => {
     return [];
   });
 
-  const handleWipeOut = () => {
-    localStorage.removeItem('deleted_tasks');
-    toast.success("All data wiped successfully.");
-    setDeletedTasks([]);
-  };
+ const handleWipeOut = () => {
+  toast("Are you sure you want to delete all history?", {
+    description: "This action cannot be undone.",
+    action: {
+      label: "Yes, Delete",
+      onClick: () => {
+        localStorage.removeItem('deleted_tasks');
+        setDeletedTasks([]);
+        toast.success("All data wiped successfully.");
+      },
+    },
+    cancel: {
+      label: "Cancel",
+      onClick: () => {
+        toast("Deletion cancelled");
+      },
+    },
+  });
+};
 
-  const restoreTask = (id) => {
-    const deleted = JSON.parse(localStorage.getItem("deleted_tasks")) || [];
-    const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+const restoreTask = (id) => {
+  const deleted = JSON.parse(localStorage.getItem("deleted_tasks")) || [];
+  const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
 
-    const taskToRestore = deleted.find((task) => task.id === id);
-    if (!taskToRestore) return;
+  const taskToRestore = deleted.find((task) => task.id === id);
+  if (!taskToRestore) return;
 
-    const updatedDeletedTasks = deleted.filter((task) => task.id !== id);
-    const updatedTasks = [...tasks, taskToRestore];
+  const updatedDeletedTasks = deleted.filter((task) => task.id !== id);
+  const updatedTasks = [...tasks, taskToRestore];
 
-    localStorage.setItem("deleted_tasks", JSON.stringify(updatedDeletedTasks));
-    localStorage.setItem("tasks", JSON.stringify(updatedTasks));
+  localStorage.setItem("deleted_tasks", JSON.stringify(updatedDeletedTasks));
+  localStorage.setItem("tasks", JSON.stringify(updatedTasks));
+  setDeletedTasks(updatedDeletedTasks);
 
-    setDeletedTasks(updatedDeletedTasks);
-    toast.success("Task restored to roadmap.");
-  };
+  // 🔥 Toast with navigation + undo
+  toast("Task restored", {
+    description: "Moved back to roadmap",
+    action: {
+      label: "View Tasks",
+      onClick: () => navigate("/list-tasks"),
+    },
+    cancel: {
+      label: "Undo",
+      onClick: () => {
+        localStorage.setItem(
+          "deleted_tasks",
+          JSON.stringify([...updatedDeletedTasks, taskToRestore])
+        );
+        localStorage.setItem("tasks", JSON.stringify(tasks));
+        setDeletedTasks([...updatedDeletedTasks, taskToRestore]);
+      },
+    },
+  });
+};
 
  /* const handleExport=()=>{
     const tasks=JSON.parse(localStorage.getItem("tasks") || "[]");

@@ -4,8 +4,10 @@ import { toast } from "sonner";
 import { useTheme } from "../context/ThemeContext";
 import { useCategory } from "../context/CategoryContext";
 import ThemeToggle from "../components/ThemeToggle";
+import { useNavigate } from "react-router-dom";
 
 const AddTasks = () => {
+  const navigate = useNavigate();
   const { dark } = useTheme();
   const { categories, addCategory, deleteCategory } = useCategory();
   const [task, setTask] = useState("");
@@ -43,8 +45,12 @@ const [showInput, setShowInput] = useState(false);
 
     setTasks([...tasks, newTask]);
     toast.success("Task successfully added to roadmap.", {
-      style: { background: "#000000", color: "#ffffff" },
-    });
+  style: { background: "#000000", color: "#ffffff" },
+  action: {
+    label: "View List",
+    onClick: () => navigate("/list-tasks"),
+  },
+});
     setTask("");
   };
 
