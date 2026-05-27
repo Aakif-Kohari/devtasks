@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useTheme } from "../context/ThemeContext";
 import { useCategory } from "../context/CategoryContext";
 import ThemeToggle from "../components/ThemeToggle";
@@ -8,21 +8,9 @@ import ThemeToggle from "../components/ThemeToggle";
 const FILTERS = ["ALL", "ACTIVE", "COMPLETED"];
 
 const ListTasks = () => {
+  const navigate = useNavigate();
   const { dark } = useTheme();
   const { categories } = useCategory();
-import { useEffect, useRef, useState } from 'react'
-import { toast } from 'sonner'
-import { Link } from 'react-router-dom'
-import { useTheme } from '../context/ThemeContext'
-import { useCategory } from '../context/CategoryContext'
-import ThemeToggle from '../components/ThemeToggle'
-import { useNavigate } from "react-router-dom";
-const FILTERS = ['ALL', 'ACTIVE', 'COMPLETED']
-
-const ListTasks = () => {
-  const navigate = useNavigate();
-  const { dark } = useTheme()
-  const { categories } = useCategory()
   const [tasks, setTasks] = useState(() => {
     const savedTasks = localStorage.getItem("tasks");
     return savedTasks ? JSON.parse(savedTasks) : [];
@@ -123,14 +111,6 @@ const ListTasks = () => {
       style: { background: "#000000", color: "#ffffff" },
     });
   };
- toast(`${completedTasks.length} completed ${completedTasks.length === 1 ? 'task' : 'tasks'} moved`, {
-  description: "Sent to delete history",
-  action: {
-    label: "View Logs",
-    onClick: () => navigate("/delete-history"),
-  },
-});
-};
 
   const handleEditKeyDown = (e, id) => {
     if (e.key === "Enter") saveEdit(id);
@@ -240,30 +220,14 @@ const ListTasks = () => {
     localStorage.setItem("tasks", JSON.stringify(updatedTasks));
     setTasks(updatedTasks);
 
-    toast.success(
-      `${completedTasks.length} completed ${
-        completedTasks.length === 1 ? "task" : "tasks"
-      } moved to delete history.`,
-      {
-        style: { background: "#000000", color: "#ffffff" },
-      }
-    );
-  };
-    }))
-    const updatedTasks = tasks.filter((task) => !task.completed)
-
-    localStorage.setItem('deleted_tasks', JSON.stringify([...deletedTasks, ...completedWithTimestamps]))
-    localStorage.setItem('tasks', JSON.stringify(updatedTasks))
-    setTasks(updatedTasks)
-
     toast(`${completedTasks.length} completed ${completedTasks.length === 1 ? 'task' : 'tasks'} moved`, {
-  description: "Sent to delete history",
-  action: {
-    label: "View Logs",
-    onClick: () => navigate("/delete-history"),
-  },
-});
-};
+      description: "Sent to delete history",
+      action: {
+        label: "View Logs",
+        onClick: () => navigate("/delete-history"),
+      },
+    });
+  };
 
   const toggleComplete = (id) => {
     const updatedTasks = tasks.map((task) =>

@@ -64,12 +64,17 @@ const restoreTask = (id) => {
     cancel: {
       label: "Undo",
       onClick: () => {
-        localStorage.setItem(
-          "deleted_tasks",
-          JSON.stringify([...updatedDeletedTasks, taskToRestore])
-        );
-        localStorage.setItem("tasks", JSON.stringify(tasks));
-        setDeletedTasks([...updatedDeletedTasks, taskToRestore]);
+        const currentTasks = JSON.parse(localStorage.getItem("tasks")) || [];
+        const currentDeleted = JSON.parse(localStorage.getItem("deleted_tasks")) || [];
+
+        const revertedTasks = currentTasks.filter((t) => t.id !== id);
+        const revertedDeleted = currentDeleted.some((t) => t.id === id)
+          ? currentDeleted
+          : [...currentDeleted, taskToRestore];
+
+        localStorage.setItem("deleted_tasks", JSON.stringify(revertedDeleted));
+        localStorage.setItem("tasks", JSON.stringify(revertedTasks));
+        setDeletedTasks(revertedDeleted);
       },
     },
   });
@@ -113,6 +118,13 @@ const restoreTask = (id) => {
           const existingDeleted =
             JSON.parse(localStorage.getItem("deleted_tasks")) || [];
 
+          // Register custom categories
+          const savedCategories = localStorage.getItem("available_categories");
+          const currentCategories = savedCategories ? JSON.parse(savedCategories) : ["FEATURE", "BUG", "REFACTOR"];
+          const importedCategories = [...new Set(data.filter(item => item.category).map(item => item.category.trim().toUpperCase()))];
+          const updatedCategories = [...new Set([...currentCategories, ...importedCategories])];
+          localStorage.setItem("available_categories", JSON.stringify(updatedCategories));
+
           localStorage.setItem(
             "tasks",
             JSON.stringify([...existingTasks, ...tasks])
@@ -122,53 +134,23 @@ const restoreTask = (id) => {
             JSON.stringify([...existingDeleted, ...deleted])
           );
           setDeletedTasks([...existingDeleted, ...deleted]);
- /* const handleExport=()=>{
-    const tasks=JSON.parse(localStorage.getItem("tasks") || "[]");
-    const deletedTasks=JSON.parse(localStorage.getItem("deleted_tasks") || "[]");
-    let exportData=[...tasks,...deletedTasks];
-    exportData=JSON.stringify(exportData,null,2);
-    const blob=new Blob([exportData],{type:"application/json"});
-    const url=URL.createObjectURL(blob);
-    const a=document.createElement("a");
-    a.href=url;
-    a.download="devtasks-backup.json";
-    a.click();
-    URL.revokeObjectURL(url);
-  }*/
-
-  /*const handleImport=()=>{
-    const input=document.createElement("input");
-    input.type="file";
-    input.accept=".json";
-    input.onchange=async (e)=>{
-      const file=e.target.files[0];
-      if(!file) return;
-      
-      try{
-        const text=await file.text();
-        const data=JSON.parse(text);
-        if(Array.isArray(data)){
-          const tasks=data.filter(item=>item.text && item.id && !item.deletedAt);
-          const deleted=data.filter(item=>item.text && item.id && item.deletedAt);
-          const existingTasks=JSON.parse(localStorage.getItem("tasks")) || [];
-          const existingDeleted=JSON.parse(localStorage.getItem("deleted_tasks")) || [];
-
-          localStorage.setItem("tasks",JSON.stringify([...existingTasks,...tasks]));
-          localStorage.setItem("deleted_tasks",JSON.stringify([...existingDeleted,...deleted]));
-          setDeletedTasks([...existingDeleted,...deleted]);
-          toast.success("Data imported successfully");
+          toast.success("Data imported successfully", {
+            style: { background: "#000000", color: "#ffffff" },
+          });
         } else {
-          toast.error("Invalid file structure");
+          toast.error("Invalid file structure", {
+            style: { background: "#000000", color: "#ffffff" },
+          });
         }
-      } catch (e) {
-        console.error(e);
-        toast.error("Invalid file format");
+      } catch (err) {
+        console.error(err);
+        toast.error("Invalid file format", {
+          style: { background: "#000000", color: "#ffffff" },
+        });
       }
     };
     input.click();
   };
-  }*/
-  
 
   return (
     <div
