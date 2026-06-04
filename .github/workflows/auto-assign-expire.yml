@@ -21,7 +21,7 @@ jobs:
 
     steps:
       - name: Assign commenter
-        uses: actions/github-script@v8
+        uses: actions/github-script@v7
         with:
           script: |
             const comment = (context.payload.comment.body || '')
@@ -48,9 +48,29 @@ jobs:
               "let me work on this"
             ];
 
-            const shouldAssign = triggers.some(trigger =>
-              comment.startsWith(trigger)
-            );
+            const shouldAssign = triggers.some(trigger => {
+              if (trigger.startsWith('/')) {
+                return comment.startsWith(trigger);
+              }
+              
+              // For phrase triggers, check if they exist in the comment
+              const index = comment.indexOf(trigger);
+              if (index === -1) {
+                return false;
+              }
+              
+              // Check if the trigger is preceded by any negation words (e.g., "don't", "can't", "not")
+              const preceding = comment.substring(0, index).trim();
+              const negations = ["don't", "dont", "can't", "cant", "cannot", "not", "won't", "wont", "unable"];
+              
+              // Check if any negation word is present with word boundaries in the preceding text
+              const hasNegation = negations.some(neg => {
+                const regex = new RegExp(`\\b${neg}\\b`);
+                return regex.test(preceding);
+              });
+              
+              return !hasNegation;
+            });
 
             if (!shouldAssign) {
               return;
@@ -107,7 +127,7 @@ Happy coding!`
 
     steps:
       - name: Remove expired assignees
-        uses: actions/github-script@v8
+        uses: actions/github-script@v7
         with:
           script: |
             const EXPIRY_MS = 48 * 60 * 60 * 1000;
