@@ -6,12 +6,13 @@ on:
       - created
 
   schedule:
-    - cron: "0 * * * *"
+    - cron: "0 */6 * * *"
 
   workflow_dispatch:
 
 permissions:
   issues: write
+  pull-requests: read
 
 jobs:
   assign:
@@ -23,9 +24,19 @@ jobs:
         uses: actions/github-script@v8
         with:
           script: |
-            const comment = context.payload.comment.body
+            const comment = (context.payload.comment.body || '')
               .trim()
               .toLowerCase();
+
+            // Skip comments made by bots
+            if (context.payload.comment.user.type === 'Bot' || context.payload.comment.user.login.endsWith('[bot]')) {
+              return;
+            }
+
+            // Skip pull requests
+            if (context.payload.issue.pull_request) {
+              return;
+            }
 
             const triggers = [
               "/assign",
@@ -38,7 +49,7 @@ jobs:
             ];
 
             const shouldAssign = triggers.some(trigger =>
-              comment.includes(trigger)
+              comment.startsWith(trigger)
             );
 
             if (!shouldAssign) {
@@ -54,23 +65,32 @@ jobs:
               issue_number: issueNumber
             });
 
+            // Skip if the issue is already closed
+            if (issue.data.state !== 'open') {
+              return;
+            }
+
+            // Check if user is already assigned
             const alreadyAssigned = issue.data.assignees.some(
               assignee => assignee.login === username
             );
 
-            if (!alreadyAssigned) {
-              await github.rest.issues.addAssignees({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                issue_number: issueNumber,
-                assignees: [username]
-              });
+            if (alreadyAssigned) {
+              return;
+            }
 
-              await github.rest.issues.createComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                issue_number: issueNumber,
-                body: `Hi @${username},
+            await github.rest.issues.addAssignees({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issueNumber,
+              assignees: [username]
+            });
+
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issueNumber,
+              body: `Hi @${username},
 
 Thank you for your interest in this issue and for contributing to the project!
 
@@ -79,8 +99,7 @@ You have been successfully assigned. You may begin working on it immediately.
 Please note: To keep the repository active and ensure issues are addressed in a timely manner, assignments will automatically expire after 48 hours if the issue remains open. If you need an extension or have any questions, please leave a comment here to notify the maintainers.
 
 Happy coding!`
-              });
-            }
+            });
 
   expire:
     if: github.event_name != 'issue_comment'
@@ -117,7 +136,7 @@ Happy coding!`
 
               // Fetch the timeline/events for this issue to check when assignees were added
               const events = await github.paginate(
-                github.rest.issues.listEvents,
+                github.rest.issues.listEventsForTimeline,
                 {
                   owner: context.repo.owner,
                   repo: context.repo.repo,
@@ -130,23 +149,21 @@ Happy coding!`
                 const username = assignee.login;
 
                 // Find the latest 'assigned' event for this user on this issue
-                const assignedEvents = events.filter(
-                  event => event.event === "assigned" && event.assignee && event.assignee.login === username
-                );
+                const assignedEvents = events
+                  .filter(
+                    event => event.event === "assigned" && event.assignee && event.assignee.login === username
+                  )
+                  .sort(
+                    (a, b) => new Date(a.created_at) - new Date(b.created_at)
+                  );
 
                 if (assignedEvents.length === 0) {
                   continue;
                 }
 
-                // Get the timestamp and actor of the latest assignment
+                // Get the timestamp of the latest assignment
                 const latestAssignment = assignedEvents[assignedEvents.length - 1];
                 const assignedAt = new Date(latestAssignment.created_at).getTime();
-                const assignedBy = latestAssignment.actor ? latestAssignment.actor.login : "";
-
-                // Only auto-expire if the user was assigned by the actions bot
-                if (assignedBy !== "github-actions[bot]") {
-                  continue;
-                }
 
                 if (Date.now() - assignedAt >= EXPIRY_MS) {
                   // Remove assignee
