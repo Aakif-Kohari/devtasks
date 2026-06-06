@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { useTheme } from "../../../context/ThemeContext";
 import ThemeToggle from "../../../components/ThemeToggle";
+import { toast } from "sonner";
 
 const ListSnippets = () => {
   const { dark } = useTheme();
@@ -29,12 +30,12 @@ const ListSnippets = () => {
 
   const filteredSnippets = snippets.filter((snippet) => {
     const title = snippet?.title || "";
-    const cmd = snippet?.cmd || "";
+    const code = snippet?.code || "";
     const category = snippet?.category || "";
 
     const matchesSearch =
       title.toLowerCase().includes((searchQuery || "").toLowerCase()) ||
-      cmd.toLowerCase().includes((searchQuery || "").toLowerCase());
+      code.toLowerCase().includes((searchQuery || "").toLowerCase());
 
     const matchesCategory =
       selectedCategory === "ALL" ||
@@ -43,11 +44,17 @@ const ListSnippets = () => {
     return matchesSearch && matchesCategory;
   });
 
-  const handleCopy = async (cmd) => {
+  const handleCopy = async (code) => {
     try {
-      await navigator.clipboard.writeText(cmd);
+      await navigator.clipboard.writeText(code);
+      toast.success("Snippet copied successfully!", {
+      style: { background: "#000000", color: "#ffffff" },
+    });
     } catch (error) {
       console.error("Copy failed:", error);
+      toast.error("Snippet copy failed.", {
+      style: { background: "#000000", color: "#ffffff" },
+    });
     }
   };
 
