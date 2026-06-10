@@ -1,11 +1,54 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
+import { toast } from "sonner";
 import { useTheme } from "../../../context/ThemeContext";
 import ThemeToggle from "../../../components/ThemeToggle";
 
-const formatCategories = ["Format", "Minify", "Clear"]; 
-
 const JsonFormatter = () => {
   const { dark } = useTheme();
+  const [input, setInput] = useState("");
+  const [output, setOutput] = useState("");
+
+  const handleFormat = () => {
+    try {
+      if (!input.trim()) return;
+      const parsed = JSON.parse(input);
+      setOutput(JSON.stringify(parsed, null, 2));
+    } catch (error) {
+      toast.error("Invalid JSON format");
+    }
+  };
+
+  const handleMinify = () => {
+    try {
+      if (!input.trim()) return;
+      const parsed = JSON.parse(input);
+      setOutput(JSON.stringify(parsed));
+    } catch (error) {
+      toast.error("Invalid JSON format");
+    }
+  };
+
+  const handleClear = () => {
+    setInput("");
+    setOutput("");
+  };
+
+  const handleCopy = async () => {
+    try {
+      if (!output) return;
+      await navigator.clipboard.writeText(output);
+      toast.success("Copied to clipboard");
+    } catch (error) {
+      toast.error("Failed to copy");
+    }
+  };
+
+  const buttons = [
+    { label: "Format", onClick: handleFormat },
+    { label: "Minify", onClick: handleMinify },
+    { label: "Clear", onClick: handleClear },
+  ];
   return (
     <div
       className={`min-h-screen px-4 sm:px-6 py-8 flex items-center justify-center transition-colors duration-300 overflow-hidden relative ${
@@ -66,6 +109,8 @@ const JsonFormatter = () => {
                 Input
               </label>
               <textarea
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
                 placeholder='{"title":"devtask"}'
                 className={`md:h-full h-40 px-4 py-3 rounded-2xl border text-sm outline-none transition-all duration-300 resize-none ${
                   dark
@@ -74,9 +119,10 @@ const JsonFormatter = () => {
                 }`}
               />
               <div className="grid grid-cols-3 gap-3">
-                {formatCategories.map((item) => (
+                {buttons.map((btn) => (
                   <button
-                    key={item}
+                    key={btn.label}
+                    onClick={btn.onClick}
                     type="button"
                     className={`w-full px-4 py-2 rounded-xl border font-bold text-sm text-center transition-all duration-300 active:scale-95 ${
                       dark
@@ -84,7 +130,7 @@ const JsonFormatter = () => {
                         : "border-black text-black hover:bg-black hover:text-white"
                     }`}
                   >
-                    {item}
+                    {btn.label}
                   </button>
                 ))}
               </div>
@@ -101,6 +147,7 @@ const JsonFormatter = () => {
                 Output
               </label>
               <textarea
+                value={output}
                 readOnly
                 className={`md:h-full h-40 px-4 py-3 rounded-2xl border text-sm outline-none transition-all duration-300 resize-none ${
                   dark
@@ -110,6 +157,7 @@ const JsonFormatter = () => {
               />
               <div className={"flex justify-end"}>
                 <button
+                  onClick={handleCopy}
                   type="button"
                   className={`w-40 px-4 py-2 rounded-xl border font-bold text-sm text-center transition-all duration-300 active:scale-95
                     ${dark
