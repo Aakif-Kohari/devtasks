@@ -3,23 +3,30 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { useTheme } from "../../../context/ThemeContext";
 import { toast } from "sonner";
 
-const categories = ["GENERAL", "LOCALHOST", "STAGING", "FIGMA", "DOCUMENTATION"];
+const DEFAULT_CATEGORIES = ["GENERAL", "LOCALHOST", "STAGING", "FIGMA", "DOCUMENTATION"];
 
 const AddResource = () => {
   const navigate = useNavigate();
   const { dark } = useTheme();
+  const [categories, setCategories] = useState(() => {
+    const saved = localStorage.getItem("resource_categories");
+    return saved ? JSON.parse(saved) : DEFAULT_CATEGORIES;
+  });
   const [resource, setResource] = useState({
     id: null,
     title: "",
     url: "",
     description: "",
-    category: "GENERAL",
+    category: categories[0] || "GENERAL",
     createdAt: null
   });
   const [resources, setResources] = useState(() => {
     const existingResources = localStorage.getItem("dev_resources");
     return existingResources ? JSON.parse(existingResources) : [];
   });
+  const [showAddInput, setShowAddInput] = useState(false);
+  const [newCategoryInput, setNewCategoryInput] = useState("");
+
   const { id } = useParams();
   const isEdit = Boolean(id);
 
@@ -66,6 +73,40 @@ const AddResource = () => {
     )));
   };
 
+  const handleAddCategory = () => {
+    const normalized = newCategoryInput.trim().toUpperCase();
+    if (!normalized) return;
+    if (categories.includes(normalized)) {
+      toast.error(`"${normalized}" already exists.`);
+      return;
+    }
+    const updated = [...categories, normalized];
+    setCategories(updated);
+    localStorage.setItem("resource_categories", JSON.stringify(updated));
+    setResource({ ...resource, category: normalized });
+    setNewCategoryInput("");
+    setShowAddInput(false);
+    toast.success(`Category "${normalized}" added.`);
+  };
+
+  const handleDeleteCategory = (cat) => {
+    if (categories.length === 1) {
+      toast.error("At least one category is required.");
+      return;
+    }
+    const inUse = resources.some((r) => r.category === cat);
+    if (inUse) {
+      toast.error(`Cannot remove "${cat}" — it's used by existing resources.`);
+      return;
+    }
+    const updated = categories.filter((c) => c !== cat);
+    setCategories(updated);
+    localStorage.setItem("resource_categories", JSON.stringify(updated));
+    if (resource.category === cat) {
+      setResource({ ...resource, category: updated[0] || "GENERAL" });
+    }
+    toast.success(`Category "${cat}" removed.`);
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault()
@@ -129,7 +170,7 @@ const AddResource = () => {
       title: "",
       url: "",
       description: "",
-      category: "GENERAL",
+      category: categories[0] || "GENERAL",
       createdAt: null
     });
   };
@@ -264,25 +305,107 @@ const AddResource = () => {
                 >
                   Category Tags
                 </label>
-                <div className="flex flex-wrap gap-3">
-                  {categories.map((item) => (
+                <div className="flex flex-wrap gap-2 items-center">
+                  {categories.map((cat) => (
+                    <div key={cat} className="relative flex items-center">
+                      <button
+                        type="button"
+                        onClick={() => setResource({ ...resource, category: cat })}
+                        className={`pl-4 pr-7 py-2 rounded-full text-[10px] sm:text-xs font-black uppercase tracking-widest border transition-all duration-200 ${
+                          resource.category === cat
+                            ? dark
+                              ? "bg-white text-black border-white"
+                              : "bg-black text-white border-black"
+                            : dark
+                              ? "bg-transparent text-neutral-400 border-zinc-700 hover:border-zinc-500 hover:text-white"
+                              : "bg-transparent text-neutral-500 border-neutral-300 hover:border-neutral-400 hover:text-black"
+                        }`}
+                      >
+                        {cat}
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => handleDeleteCategory(cat)}
+                        aria-label={`Remove ${cat}`}
+                        className={`absolute right-2.5 text-xs leading-none transition-colors ${
+                          resource.category === cat
+                            ? dark
+                              ? "text-black/50 hover:text-black"
+                              : "text-white/50 hover:text-white"
+                            : dark
+                              ? "text-zinc-600 hover:text-zinc-300"
+                              : "text-neutral-400 hover:text-neutral-700"
+                        }`}
+                      >
+                        ×
+                      </button>
+                    </div>
+                  ))}
+
+                  {/* Inline add-category control */}
+                  {showAddInput ? (
+                    <div className="flex items-center gap-1.5 flex-wrap">
+                      <input
+                        type="text"
+                        value={newCategoryInput}
+                        onChange={(e) => setNewCategoryInput(e.target.value)}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter") {
+                            e.preventDefault();
+                            handleAddCategory();
+                          }
+                          if (e.key === "Escape") {
+                            setShowAddInput(false);
+                            setNewCategoryInput("");
+                          }
+                        }}
+                        placeholder="NAME"
+                        autoFocus
+                        className={`w-24 px-3 py-1.5 rounded-full text-xs font-black uppercase tracking-widest border outline-none transition-all ${
+                          dark
+                            ? "bg-zinc-950 border-zinc-600 text-white placeholder-zinc-600 focus:border-white"
+                            : "bg-neutral-50 border-neutral-300 text-black placeholder-neutral-400 focus:border-black"
+                        }`}
+                      />
+                      <button
+                        type="button"
+                        onClick={handleAddCategory}
+                        className={`px-3 py-1.5 rounded-full text-xs font-black uppercase tracking-widest border transition-all ${
+                          dark
+                            ? "bg-white text-black border-white hover:bg-neutral-200"
+                            : "bg-black text-white border-black hover:bg-neutral-800"
+                        }`}
+                      >
+                        Add
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setShowAddInput(false);
+                          setNewCategoryInput("");
+                        }}
+                        className={`px-3 py-1.5 rounded-full text-xs font-black uppercase tracking-widest border transition-all ${
+                          dark
+                            ? "border-zinc-700 text-zinc-400 hover:border-zinc-500 hover:text-white"
+                            : "border-neutral-300 text-neutral-500 hover:border-neutral-400 hover:text-black"
+                        }`}
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  ) : (
                     <button
-                      key={item}
                       type="button"
-                      onClick={() => setResource({...resource, category: item})}
-                      className={`px-2 py-1.5 sm:px-4 sm:py-2 rounded-full text-[10px] sm:text-xs font-black uppercase tracking-widest border transition-all duration-300 ${
-                        resource.category === item
-                          ? dark
-                            ? "bg-white text-black border-white"
-                            : "bg-black text-white border-black"
-                          : dark
-                            ? "bg-zinc-800 border-zinc-700 text-neutral-300 hover:border-white hover:text-white"
-                            : "bg-neutral-100 border-neutral-200 text-neutral-600 hover:border-black hover:text-black"
+                      onClick={() => setShowAddInput(true)}
+                      className={`px-4 py-2 rounded-full text-[10px] sm:text-xs font-black uppercase tracking-widest border border-dashed transition-all duration-200 ${
+                        dark
+                          ? "border-zinc-700 text-zinc-500 hover:border-zinc-500 hover:text-zinc-300"
+                          : "border-neutral-300 text-neutral-400 hover:border-neutral-400 hover:text-neutral-600"
                       }`}
                     >
-                      {item}
+                      + Add
                     </button>
-                  ))}
+                  )}
                 </div>
               </div>
 
