@@ -73,7 +73,7 @@ const DevUtilities = () => {
 
   return (
     <div
-      className={`${t.wrapper} min-h-screen md:h-screen w-full font-sans overflow-y-auto md:overflow-hidden overflow-x-hidden flex flex-col p-4 md:p-8 transition-colors duration-300`}
+      className={`${t.wrapper} min-h-screen w-full font-sans overflow-y-auto overflow-x-hidden flex flex-col p-4 md:p-8 transition-colors duration-300`}
     >
       <title>Dev Utilities — Custom Tools Sandbox</title>
       <meta
@@ -157,11 +157,7 @@ const DevUtilities = () => {
           </div>
         </div>
 
-        <div className="shrink-0 mt-8 pt-8 border-t border-gray-50 opacity-10 hidden md:block">
-          <h2 className="text-[12vw] font-black tracking-tighter leading-none select-none text-center">
-            TOOLS
-          </h2>
-        </div>
+
       </div>
     </div>
   );
