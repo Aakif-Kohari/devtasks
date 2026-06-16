@@ -15,7 +15,11 @@ function buildSegments(text, matches) {
   for (let i = 0; i < matches.length; i++) {
     const { index, end, value } = matches[i];
     if (index > cursor) {
-      segments.push({ type: "text", value: text.slice(cursor, index), key: `pre-${i}` });
+      segments.push({
+        type: "text",
+        value: text.slice(cursor, index),
+        key: `pre-${i}`,
+      });
     }
     segments.push({ type: "match", value, key: `match-${i}` });
     cursor = end;
@@ -46,10 +50,13 @@ const HighlightedText = ({ text, matches, dark }) => {
             {seg.value}
           </mark>
         ) : (
-          <span key={seg.key} className={dark ? "text-zinc-300" : "text-zinc-700"}>
+          <span
+            key={seg.key}
+            className={dark ? "text-zinc-300" : "text-zinc-700"}
+          >
             {seg.value}
           </span>
-        )
+        ),
       )}
     </>
   );
@@ -63,8 +70,11 @@ const RegexTester = () => {
   const [flags, setFlags] = useState({ g: true, i: false, m: false });
 
   const activeFlags = useMemo(
-    () => FLAG_DEFS.filter((f) => flags[f.key]).map((f) => f.key).join(""),
-    [flags]
+    () =>
+      FLAG_DEFS.filter((f) => flags[f.key])
+        .map((f) => f.key)
+        .join(""),
+    [flags],
   );
 
   const regexLiteral = pattern ? `/${pattern}/${activeFlags}` : "";
@@ -72,7 +82,9 @@ const RegexTester = () => {
   const { matchResults, error } = useMemo(() => {
     if (!pattern) return { matchResults: [], error: null };
     try {
-      const loopFlags = activeFlags.includes("g") ? activeFlags : activeFlags + "g";
+      const loopFlags = activeFlags.includes("g")
+        ? activeFlags
+        : activeFlags + "g";
       const regex = new RegExp(pattern, loopFlags);
       const results = [];
       let match;
@@ -105,6 +117,20 @@ const RegexTester = () => {
     setFlags({ g: true, i: false, m: false });
   }, []);
 
+  const handleSample = useCallback(() => {
+    setPattern("\\b\\w+@\\w+\\.\\w+\\b");
+    setTestText(`john@example.com
+hello world
+jane@test.com
+support@company.org`);
+
+    setFlags({
+      g: true,
+      i: true,
+      m: false,
+    });
+  }, []);
+
   const handleCopyPattern = useCallback(() => {
     if (!pattern) {
       toast.error("No pattern to copy.");
@@ -120,8 +146,8 @@ const RegexTester = () => {
     !pattern || error
       ? null
       : matchResults.length === 0
-      ? "No matches found"
-      : `${matchResults.length} match${matchResults.length !== 1 ? "es" : ""} found`;
+        ? "No matches found"
+        : `${matchResults.length} match${matchResults.length !== 1 ? "es" : ""} found`;
 
   return (
     <div
@@ -183,10 +209,8 @@ const RegexTester = () => {
 
         {/* Content area */}
         <div className="p-5 sm:p-6 flex-1 overflow-y-auto min-h-0">
-
           {/* ── TOP PANEL: Pattern + Flags + Literal preview ── */}
           <div className="flex flex-col gap-4 mb-6">
-
             {/* Pattern input */}
             <div className="group flex flex-col space-y-2">
               <label
@@ -211,15 +235,14 @@ const RegexTester = () => {
                       ? "bg-zinc-950 border-zinc-600 text-zinc-200 focus:border-zinc-400 focus:ring-1 focus:ring-zinc-400"
                       : "bg-neutral-50 border-neutral-400 text-zinc-800 focus:border-neutral-500 focus:ring-1 focus:ring-neutral-500"
                     : dark
-                    ? "bg-zinc-950 border-zinc-800 text-zinc-200 placeholder-zinc-600 focus:border-white focus:ring-1 focus:ring-white"
-                    : "bg-neutral-50 border-neutral-200 text-zinc-800 placeholder-neutral-400 focus:border-black focus:ring-1 focus:ring-black"
+                      ? "bg-zinc-950 border-zinc-800 text-zinc-200 placeholder-zinc-600 focus:border-white focus:ring-1 focus:ring-white"
+                      : "bg-neutral-50 border-neutral-200 text-zinc-800 placeholder-neutral-400 focus:border-black focus:ring-1 focus:ring-black"
                 }`}
               />
             </div>
 
             {/* Flags + Literal preview + Actions row */}
             <div className="flex flex-wrap items-end justify-between gap-6 w-full">
-
               <div className="flex flex-wrap items-end gap-6">
                 {/* Flags */}
                 <div className="flex flex-col space-y-2">
@@ -243,8 +266,8 @@ const RegexTester = () => {
                               ? "bg-white text-black border-white"
                               : "bg-black text-white border-black"
                             : dark
-                            ? "border-zinc-700 text-zinc-300 hover:border-white hover:text-white"
-                            : "border-neutral-200 text-zinc-600 hover:text-black"
+                              ? "border-zinc-700 text-zinc-300 hover:border-white hover:text-white"
+                              : "border-neutral-200 text-zinc-600 hover:text-black"
                         }`}
                       >
                         {flag.label}
@@ -270,8 +293,8 @@ const RegexTester = () => {
                             ? "bg-zinc-950 border-zinc-700 text-zinc-500 line-through"
                             : "bg-neutral-100 border-neutral-300 text-zinc-400 line-through"
                           : dark
-                          ? "bg-zinc-950 border-zinc-700 text-zinc-300"
-                          : "bg-neutral-100 border-neutral-300 text-zinc-600"
+                            ? "bg-zinc-950 border-zinc-700 text-zinc-300"
+                            : "bg-neutral-100 border-neutral-300 text-zinc-600"
                       }`}
                     >
                       {regexLiteral}
@@ -282,6 +305,17 @@ const RegexTester = () => {
 
               {/* Action buttons aligned to the right side end */}
               <div className="flex items-center gap-3">
+                <button
+                  type="button"
+                  onClick={handleSample}
+                  className={`px-4 py-2 rounded-xl border font-black text-xs uppercase tracking-widest transition-all duration-300 hover:scale-105 active:scale-95 ${
+                    dark
+                      ? "bg-zinc-800 border-zinc-700 text-zinc-300 hover:text-white hover:border-zinc-500"
+                      : "bg-white border-neutral-200 text-zinc-600 hover:text-black hover:border-neutral-400"
+                  }`}
+                >
+                  Sample
+                </button>
                 <button
                   type="button"
                   onClick={handleClear}
@@ -305,7 +339,6 @@ const RegexTester = () => {
                   Copy Pattern
                 </button>
               </div>
-
             </div>
 
             {/* Error banner */}
@@ -327,12 +360,10 @@ const RegexTester = () => {
                 {error}
               </div>
             )}
-
           </div>
 
           {/* ── TWO-COLUMN GRID ── */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 mb-5">
-
             {/* LEFT: Test Text */}
             <div className="flex flex-col space-y-2">
               <label
@@ -364,7 +395,7 @@ const RegexTester = () => {
               >
                 {matchCountLabel ?? "Matches"}
               </label>
-              
+
               <div className="flex flex-col gap-3 flex-1 min-h-0">
                 <div
                   className={`w-full h-36 overflow-y-auto px-4 py-3 rounded-2xl border text-sm font-mono transition-all duration-300 leading-relaxed whitespace-pre-wrap break-all ${
@@ -433,7 +464,11 @@ const RegexTester = () => {
                               {match.groups.map((group) => (
                                 <div
                                   key={group.groupNum}
-                                  className={dark ? "text-zinc-500 text-[10px]" : "text-zinc-400 text-[10px]"}
+                                  className={
+                                    dark
+                                      ? "text-zinc-500 text-[10px]"
+                                      : "text-zinc-400 text-[10px]"
+                                  }
                                 >
                                   Group {group.groupNum}: {group.value}
                                 </div>
@@ -447,15 +482,8 @@ const RegexTester = () => {
                 )}
               </div>
             </div>
-
           </div>
-
-
-
         </div>
-
-
-
       </div>
     </div>
   );

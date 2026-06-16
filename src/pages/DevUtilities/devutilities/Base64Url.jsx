@@ -59,13 +59,23 @@ const Base64Url = () => {
       toast.error(
         mode === "base64"
           ? "Invalid Base64 string."
-          : "Invalid URL-encoded string."
+          : "Invalid URL-encoded string.",
       );
     }
   };
 
   const handleClear = () => {
     setInput("");
+    setOutput("");
+  };
+
+  const handleSample = () => {
+    if (mode === "base64") {
+      setInput("Hello World from Dev Utilities");
+    } else {
+      setInput("https://example.com/search?q=react js&category=frontend");
+    }
+
     setOutput("");
   };
 
@@ -82,6 +92,7 @@ const Base64Url = () => {
   const actionButtons = [
     { label: "Encode", onClick: handleEncode },
     { label: "Decode", onClick: handleDecode },
+    { label: "Sample", onClick: handleSample },
     { label: "Clear", onClick: handleClear },
     { label: "Copy", onClick: handleCopy },
   ];
@@ -93,7 +104,10 @@ const Base64Url = () => {
       }`}
     >
       <title>Base64 & URL Converter | DevTasks</title>
-      <meta name="description" content="Offline Base64 and URL encoding/decoding utility tool." />
+      <meta
+        name="description"
+        content="Offline Base64 and URL encoding/decoding utility tool."
+      />
 
       <div
         className={`w-full max-w-6xl mx-4 sm:mx-6 md:mx-auto rounded-3xl sm:rounded-4xl shadow-lg p-4 sm:p-8 border transition-colors duration-300 ${
@@ -124,7 +138,9 @@ const Base64Url = () => {
             {/* Mode Selector */}
             <div
               className={`flex items-center gap-2 p-1 border rounded-2xl ${
-                dark ? "border-zinc-700 bg-zinc-800" : "border-neutral-200 bg-neutral-50"
+                dark
+                  ? "border-zinc-700 bg-zinc-800"
+                  : "border-neutral-200 bg-neutral-50"
               }`}
             >
               {MODES.map((opt) => (
@@ -151,32 +167,41 @@ const Base64Url = () => {
 
         {/* Content Area */}
         <div className="mb-8">
-          
           {/* 2-Column Grid Layout matching the reference image */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 mb-8">
-            
             {/* LEFT COLUMN: Input */}
             <div className="flex flex-col">
               <div className="flex justify-between items-center mb-3">
-                <label className={`text-xs font-black uppercase tracking-widest ${dark ? "text-zinc-400" : "text-zinc-500"}`}>
+                <label
+                  className={`text-xs font-black uppercase tracking-widest ${dark ? "text-zinc-400" : "text-zinc-500"}`}
+                >
                   Input
                 </label>
-                <button className={`text-xs font-bold transition-colors ${dark ? "text-zinc-500 hover:text-white" : "text-zinc-400 hover:text-black"}`}>
-                </button>
+                <button
+                  className={`text-xs font-bold transition-colors ${dark ? "text-zinc-500 hover:text-white" : "text-zinc-400 hover:text-black"}`}
+                ></button>
               </div>
               <textarea
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 className={`w-full h-64 p-4 rounded-xl border resize-none focus:outline-none focus:ring-2 focus:ring-zinc-500 transition-colors ${
-                  dark ? "bg-zinc-950 border-zinc-800 text-zinc-200" : "bg-neutral-50 border-neutral-200 text-zinc-800"
+                  dark
+                    ? "bg-zinc-950 border-zinc-800 text-zinc-200"
+                    : "bg-neutral-50 border-neutral-200 text-zinc-800"
                 }`}
-                placeholder={mode === "base64" ? "Enter text or Base64 here" : "Enter text or URL-encoded string here"}
+                placeholder={
+                  mode === "base64"
+                    ? "Enter text or Base64 here"
+                    : "Enter text or URL-encoded string here"
+                }
               ></textarea>
             </div>
 
             {/* RIGHT COLUMN: Output */}
             <div className="flex flex-col">
-              <label className={`text-xs font-black uppercase tracking-widest mb-3 ${dark ? "text-zinc-400" : "text-zinc-500"}`}>
+              <label
+                className={`text-xs font-black uppercase tracking-widest mb-3 ${dark ? "text-zinc-400" : "text-zinc-500"}`}
+              >
                 Output
               </label>
               <textarea
@@ -190,7 +215,6 @@ const Base64Url = () => {
                 placeholder="Result will appear here..."
               ></textarea>
             </div>
-            
           </div>
 
           {/* Action Buttons (Centered at bottom) */}
@@ -210,10 +234,7 @@ const Base64Url = () => {
               </button>
             ))}
           </div>
-
         </div>
-
-
       </div>
     </div>
   );

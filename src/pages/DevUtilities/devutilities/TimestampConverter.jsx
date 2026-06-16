@@ -31,6 +31,16 @@ const TimestampConverter = () => {
     setConvertedTimestamp(Math.floor(date.getTime() / 1000));
   };
 
+  const handleTimestampSample = () => {
+    setTimestamp("1718496000");
+    setConvertedDate("");
+  };
+
+  const handleDateSample = () => {
+    setDateInput("2024-06-16T12:00");
+    setConvertedTimestamp("");
+  };
+
   const currentUnix = Math.floor(Date.now() / 1000);
 
   const theme = {
@@ -90,9 +100,7 @@ const TimestampConverter = () => {
         </Link>
 
         <div className="mb-8">
-          <h1
-            className={`text-2xl font-semibold tracking-tight ${t.heading}`}
-          >
+          <h1 className={`text-2xl font-semibold tracking-tight ${t.heading}`}>
             Timestamp Converter
           </h1>
           <p className={`mt-1 text-sm ${t.subtext}`}>
@@ -128,12 +136,21 @@ const TimestampConverter = () => {
                 onChange={(e) => setTimestamp(e.target.value)}
                 className={`w-full px-4 py-3 rounded-xl border text-sm ${t.input}`}
               />
-              <button
-                onClick={handleTimestampConvert}
-                className={`px-5 py-2.5 rounded-xl text-sm font-medium cursor-pointer ${t.button}`}
-              >
-                Convert to Date
-              </button>
+              <div className="flex flex-wrap gap-3">
+                <button
+                  onClick={handleTimestampConvert}
+                  className={`px-5 py-2.5 rounded-xl text-sm font-medium cursor-pointer ${t.button}`}
+                >
+                  Convert to Date
+                </button>
+
+                <button
+                  onClick={handleTimestampSample}
+                  className={`px-5 py-2.5 rounded-xl text-sm font-medium cursor-pointer ${t.button}`}
+                >
+                  Sample
+                </button>
+              </div>
               {convertedDate && (
                 <div
                   className={`px-4 py-3 rounded-xl border text-sm font-mono break-all ${t.result}`}
@@ -158,12 +175,21 @@ const TimestampConverter = () => {
                 onChange={(e) => setDateInput(e.target.value)}
                 className={`w-full px-4 py-3 rounded-xl border text-sm ${t.input}`}
               />
-              <button
-                onClick={handleDateConvert}
-                className={`px-5 py-2.5 rounded-xl text-sm font-medium cursor-pointer ${t.button}`}
-              >
-                Convert to Timestamp
-              </button>
+              <div className="flex flex-wrap gap-3">
+                <button
+                  onClick={handleDateConvert}
+                  className={`px-5 py-2.5 rounded-xl text-sm font-medium cursor-pointer ${t.button}`}
+                >
+                  Convert to Timestamp
+                </button>
+
+                <button
+                  onClick={handleDateSample}
+                  className={`px-5 py-2.5 rounded-xl text-sm font-medium cursor-pointer ${t.button}`}
+                >
+                  Sample
+                </button>
+              </div>
               {convertedTimestamp && (
                 <div
                   className={`px-4 py-3 rounded-xl border text-sm font-mono tabular-nums ${t.result}`}
