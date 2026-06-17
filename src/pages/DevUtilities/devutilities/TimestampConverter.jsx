@@ -79,33 +79,38 @@ const TimestampConverter = () => {
       />
 
       <div className="max-w-2xl mx-auto">
-        <Link
-          to="/devutilities"
-          className={`inline-flex items-center gap-1.5 text-sm mb-8 ${t.backLink}`}
-        >
-          <svg
-            className="w-4 h-4"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
+        <div className="flex items-center gap-3 mb-8">
+          <Link
+            to="/devutilities"
+            className={`p-2.5 rounded-xl border transition-all duration-200 active:scale-95 flex items-center justify-center shrink-0 ${
+              dark
+                ? "bg-zinc-800/80 border-zinc-700 text-zinc-300 hover:text-white hover:border-zinc-600"
+                : "bg-white border-neutral-200 text-neutral-600 hover:text-black hover:border-neutral-350"
+            }`}
+            title="Back to Workspace"
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M15 19l-7-7 7-7"
-            />
-          </svg>
-          Back to Workspace
-        </Link>
-
-        <div className="mb-8">
-          <h1 className={`text-2xl font-semibold tracking-tight ${t.heading}`}>
-            Timestamp Converter
-          </h1>
-          <p className={`mt-1 text-sm ${t.subtext}`}>
-            Convert Unix/Epoch timestamps into readable dates and vice versa.
-          </p>
+            <svg
+              className="w-4 h-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2.5}
+                d="M15 19l-7-7 7-7"
+              />
+            </svg>
+          </Link>
+          <div>
+            <h1 className={`text-2xl font-semibold tracking-tight ${t.heading}`}>
+              Timestamp Converter
+            </h1>
+            <p className={`mt-1 text-sm ${t.subtext}`}>
+              Convert Unix/Epoch timestamps into readable dates and vice versa.
+            </p>
+          </div>
         </div>
 
         <div className="space-y-5">

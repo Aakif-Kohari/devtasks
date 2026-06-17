@@ -90,7 +90,6 @@ const handleSample = () => {
   const actionButtons = [
     { label: "Encode", onClick: handleEncode },
     { label: "Decode", onClick: handleDecode },
-    { label: "Sample", onClick: handleSample },
     { label: "Clear", onClick: handleClear },
     { label: "Copy", onClick: handleCopy },
   ];
@@ -114,24 +113,39 @@ const handleSample = () => {
       >
         {/* Header Area */}
         <div className="flex flex-col gap-4 mb-8">
-          <Link
-            to="/devutilities"
-            className={`inline-flex items-center gap-2 text-xs font-black uppercase tracking-widest transition-all duration-300 w-fit ${
-              dark
-                ? "text-neutral-400 hover:text-white"
-                : "text-neutral-500 hover:text-black"
-            }`}
-          >
-            <span>← Back to Workspace</span>
-          </Link>
           <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
-            <h1
-              className={`text-2xl sm:text-3xl font-black uppercase ${
-                dark ? "text-white" : "text-black"
-              }`}
-            >
-              Base64 Encoder & Decoder
-            </h1>
+            <div className="flex items-center gap-3">
+              <Link
+                to="/devutilities"
+                className={`p-2.5 rounded-xl border transition-all duration-200 active:scale-95 flex items-center justify-center shrink-0 ${
+                  dark
+                    ? "bg-zinc-800/80 border-zinc-700 text-zinc-300 hover:text-white hover:border-zinc-600"
+                    : "bg-white border-neutral-200 text-neutral-600 hover:text-black hover:border-neutral-350"
+                }`}
+                title="Back to Workspace"
+              >
+                <svg
+                  className="w-4 h-4"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2.5}
+                    d="M15 19l-7-7 7-7"
+                  />
+                </svg>
+              </Link>
+              <h1
+                className={`text-xl sm:text-2xl font-black uppercase tracking-tight transition-colors duration-300 ${
+                  dark ? "text-white" : "text-black"
+                }`}
+              >
+                Base64 Encoder & Decoder
+              </h1>
+            </div>
 
             {/* Mode Selector */}
             <div
@@ -169,7 +183,7 @@ const handleSample = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 mb-8">
             {/* LEFT COLUMN: Input */}
             <div className="flex flex-col">
-              <div className="flex justify-between items-center mb-3">
+              <div className="flex justify-between items-center mb-3 h-8">
                 <label
                   className={`text-xs font-black uppercase tracking-widest ${
                     dark ? "text-zinc-400" : "text-zinc-500"
@@ -208,11 +222,13 @@ const handleSample = () => {
 
             {/* RIGHT COLUMN: Output */}
             <div className="flex flex-col">
-              <label
-                className={`text-xs font-black uppercase tracking-widest mb-3 ${dark ? "text-zinc-400" : "text-zinc-500"}`}
-              >
-                Output
-              </label>
+              <div className="flex items-center mb-3 h-8">
+                <label
+                  className={`text-xs font-black uppercase tracking-widest ${dark ? "text-zinc-400" : "text-zinc-500"}`}
+                >
+                  Output
+                </label>
+              </div>
               <textarea
                 value={output}
                 readOnly

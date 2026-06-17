@@ -57,7 +57,6 @@ const handleSample = () => {
   const buttons = [
     { label: "Format", onClick: handleFormat },
     { label: "Minify", onClick: handleMinify },
-    { label: "Sample", onClick: handleSample },
     { label: "Clear", onClick: handleClear },
   ];
   return (
@@ -95,16 +94,29 @@ const handleSample = () => {
         />
 
         {/* Header */}
-        <div className="px-5 sm:px-8 pt-6 sm:pt-8 flex flex-col gap-4">
+        <div className="px-5 sm:px-8 pt-6 sm:pt-8 flex items-center gap-3">
           <Link
             to="/devutilities"
-            className={`inline-flex items-center gap-2 text-xs font-black uppercase tracking-widest transition-all duration-300 w-fit ${
+            className={`p-2.5 rounded-xl border transition-all duration-200 active:scale-95 flex items-center justify-center shrink-0 ${
               dark
-                ? "text-neutral-400 hover:text-white"
-                : "text-neutral-500 hover:text-black"
+                ? "bg-zinc-800/80 border-zinc-700 text-zinc-300 hover:text-white hover:border-zinc-600"
+                : "bg-white border-neutral-200 text-neutral-600 hover:text-black hover:border-neutral-350"
             }`}
+            title="Back to Workspace"
           >
-            <span>← Back to Workspace</span>
+            <svg
+              className="w-4 h-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2.5}
+                d="M15 19l-7-7 7-7"
+              />
+            </svg>
           </Link>
           <h1
             className={`text-xl sm:text-2xl font-black uppercase tracking-tight transition-colors duration-300 ${
@@ -118,7 +130,7 @@ const handleSample = () => {
         <div className="w-full md:h-[464px] p-5 sm:p-8 overflow-y-auto">
           <div className="w-full h-full flex flex-col md:flex-row gap-4">
             <div className="group w-full flex flex-col space-y-2">
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between h-8">
                 <label
                   className={`text-xs font-black uppercase tracking-widest transition-colors duration-300 ${
                     dark
@@ -170,15 +182,17 @@ const handleSample = () => {
             </div>
 
             <div className="group w-full flex flex-col space-y-2">
-              <label
-                className={`text-xs font-black uppercase tracking-widest transition-colors duration-300 ${
-                  dark
-                    ? "text-zinc-400 group-focus-within:text-white"
-                    : "text-neutral-500 group-focus-within:text-black"
-                }`}
-              >
-                Output
-              </label>
+              <div className="flex items-center h-8">
+                <label
+                  className={`text-xs font-black uppercase tracking-widest transition-colors duration-300 ${
+                    dark
+                      ? "text-zinc-400 group-focus-within:text-white"
+                      : "text-neutral-500 group-focus-within:text-black"
+                  }`}
+                >
+                  Output
+                </label>
+              </div>
               <textarea
                 value={output}
                 readOnly

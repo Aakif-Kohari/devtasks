@@ -5,26 +5,18 @@ const StorageGauge = () => {
   const [isHovered, setIsHovered] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
   const [storageUsage, setStorageUsage] = useState(0);
-  const [databaseBreakdown, setDatabaseBreakdown] = useState({});
   const { dark } = useTheme();
 
   useEffect(() => {
     const calculateStorageUsage = () => {
       const storage = window.localStorage;
       let totalBytes = 0;
-      const databaseBreakdown = {};
       for (let i = 0; i < storage.length; i++) {
         const key = storage.key(i);
         const value = storage.getItem(key);
-        const bytes = (key.length + value.length) * 2;
-        if (key.startsWith('tasks') || key.startsWith('snippets') || key.startsWith('resources')) {
-          const database = key.split('_')[0];
-          databaseBreakdown[database] = (databaseBreakdown[database] || 0) + bytes;
-        }
-        totalBytes += bytes;
+        totalBytes += (key.length + value.length) * 2;
       }
       setStorageUsage(totalBytes);
-      setDatabaseBreakdown(databaseBreakdown);
     };
     calculateStorageUsage();
     window.addEventListener('storage', calculateStorageUsage);
@@ -45,7 +37,6 @@ const StorageGauge = () => {
   const showPopover = isHovered || isFocused;
   const storageQuota = 5 * 1024 * 1024;
   const percentageUsage = (storageUsage / storageQuota) * 100;
-  const sortedBreakdown = Object.entries(databaseBreakdown).sort(([, a], [, b]) => b - a);
 
   return (
     <div className="relative">
@@ -124,36 +115,11 @@ const StorageGauge = () => {
             </div>
 
             {/* Main progress bar */}
-            <div className={`w-full h-[3px] rounded-full mb-4 ${dark ? 'bg-zinc-700' : 'bg-neutral-200'}`}>
+            <div className={`w-full h-[3px] rounded-full ${dark ? 'bg-zinc-700' : 'bg-neutral-200'}`}>
               <div
                 className={`h-[3px] rounded-full ${dark ? 'bg-zinc-300' : 'bg-neutral-500'}`}
                 style={{ width: `${Math.min(percentageUsage, 100)}%` }}
               />
-            </div>
-
-            {/* Breakdown rows — sub bars relative to 5MB quota */}
-            <div className={`divide-y ${dark ? 'divide-zinc-800' : 'divide-neutral-100'}`}>
-              {sortedBreakdown.map(([database, bytes]) => {
-                const rowPct = (bytes / storageQuota) * 100;
-                return (
-                  <div key={database} className="py-2">
-                    <div className="flex justify-between items-center mb-1.5">
-                      <span className={`text-[11px] font-bold tracking-wider uppercase ${dark ? 'text-zinc-300' : 'text-neutral-600'}`}>
-                        {database}
-                      </span>
-                      <span className={`text-[11px] font-semibold ${dark ? 'text-zinc-300' : 'text-neutral-600'}`}>
-                        {(bytes / 1024).toFixed(2)} KB
-                      </span>
-                    </div>
-                    <div className={`w-full h-[2px] rounded-full ${dark ? 'bg-zinc-700' : 'bg-neutral-200'}`}>
-                      <div
-                        className={`h-[2px] rounded-full ${dark ? 'bg-zinc-400' : 'bg-neutral-400'}`}
-                        style={{ width: `${Math.min(rowPct, 100)}%` }}
-                      />
-                    </div>
-                  </div>
-                );
-              })}
             </div>
 
           </div>
