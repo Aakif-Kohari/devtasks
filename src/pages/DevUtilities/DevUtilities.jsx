@@ -89,6 +89,16 @@ const DevUtilities = () => {
         </svg>
       ),
     },
+    {
+      title: "Code Sandbox",
+      description: "Instantly test raw HTML/CSS/JS with a live preview. No local environment required.",
+      path: "/devutilities/code",
+      icon: (
+        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="m16 18 6-6-6-6M8 6l-6 6 6 6" />
+        </svg>
+      ),
+    },
   ];
 
   return (
