@@ -70,6 +70,7 @@ const SIDEBAR_SECTIONS = [
       { label: "UUID", description: "Generate UUIDs", path: "/devutilities/uuid" },
       { label: "JWT Decoder", description: "Inspect tokens", path: "/devutilities/jwt" },
       { label: "Diff Checker", description: "Compare text differences", path: "/devutilities/diff" },
+      { label: "Color Converter", description: "Convert colors and check contrast", path: "/devutilities/color" },
     ],
   },
 ];

@@ -99,6 +99,16 @@ const DevUtilities = () => {
         </svg>
       ),
     },
+    {
+      title: "Color Converter & Contrast Checker",
+      description: "Convert HEX, RGB, HSL, and CMYK colors, generate palettes, and verify WCAG contrast offline.",
+      path: "/devutilities/color",
+      icon: (
+        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3a9 9 0 100 18 9 9 0 000-18zm0 0c1.5 2 2 4 2 6s-.5 4-2 6c-1.5-2-2-4-2-6s.5-4 2-6zm-6.36 4.64c2.08.83 3.8 2.55 4.64 4.64-2.09-.83-3.81-2.55-4.64-4.64zm12.72 0c-.83 2.09-2.55 3.81-4.64 4.64.83-2.09 2.55-3.81 4.64-4.64z" />
+        </svg>
+      ),
+    },
   ];
 
   return (
@@ -148,6 +158,7 @@ const DevUtilities = () => {
                     if (t.includes("UUID")) return "UUID";
                     if (t.includes("JWT")) return "JWT";
                     if (t.includes("DIFF")) return "DIFF";
+                    if (t.includes("COLOR")) return "COLOR";
                     return t;
                   })
                   .join(" • ")}
