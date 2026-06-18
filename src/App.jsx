@@ -13,7 +13,7 @@ import AddSnippet from "./pages/SnippetVault/snippetvault/AddSnippet";
 import ListSnippets from "./pages/SnippetVault/snippetvault/ListSnippets";
 import DeleteHistorySnippet from "./pages/SnippetVault/snippetvault/DeleteHistory";
 import DataCenterSnippet from "./pages/SnippetVault/snippetvault/DataCenter";
-
+import TextCaseConverter from "./pages/DevUtilities/devutilities/TextCaseConverter";
 // Resource Hub Imports
 import ResourceHub from "./pages/ResourceHub/ResourceHub";
 import AddResource from "./pages/ResourceHub/resourcehub/AddResource";
@@ -134,6 +134,7 @@ function AppInner({ toggleHUD, hudVisible }) {
             <Route path="/devutilities/color" element={<ColorConverter />} />
             <Route path="/devutilities/code" element={<CodeSandbox />} />
             <Route path="/devutilities/qrcode" element={<QrCodeGenerator />} />
+            <Route path="/devutilities/text-case" element={<TextCaseConverter />} />
           </Routes>
         </div>
       </div>

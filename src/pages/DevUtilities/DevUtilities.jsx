@@ -40,6 +40,17 @@ const DevUtilities = () => {
       ),
     },
     {
+  title: "Text Case Converter",
+  description:
+    "Convert text into camelCase, snake_case, kebab-case, PascalCase, title case, URL slug, and inspect text metrics.",
+  path: "/devutilities/text-case",
+  icon: (
+    <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 7h16M4 12h10M4 17h7" />
+    </svg>
+  ),
+},
+    {
       title: "Base64 / URL",
       description: "Encode and decode binary string fragments, escape special URL query variables, and test strings.",
       path: "/devutilities/base64",
