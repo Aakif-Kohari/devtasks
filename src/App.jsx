@@ -37,6 +37,7 @@ import HashGenerator from "./pages/DevUtilities/devutilities/HashGenerator";
 import ColorConverter from "./pages/DevUtilities/devutilities/ColorConverter";
 import QrCodeGenerator from "./pages/DevUtilities/devutilities/QrCodeGenerator";
 import UrlParserBuilder from "./pages/DevUtilities/devutilities/UrlParserBuilder";
+import JwtEncoder from "./pages/DevUtilities/devutilities/JwtEncoder";
 
 import { ThemeProvider, useTheme } from "./context/ThemeContext";
 import { CategoryProvider } from "./context/CategoryContext";
@@ -145,6 +146,7 @@ function AppInner({ toggleHUD, hudVisible }) {
 <Route path="/devutilities/mock-json" element={<MockJsonGenerator />} />
 <Route path="/devutilities/markdown-table" element={<MarkdownTableGenerator />} />
 <Route path="/devutilities/url-parser" element={<UrlParserBuilder />} />
+<Route path="/devutilities/jwt-encoder" element={<JwtEncoder />} />
 
           </Routes>
         </div>
