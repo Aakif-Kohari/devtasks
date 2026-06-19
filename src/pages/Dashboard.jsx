@@ -27,10 +27,11 @@ const Dashboard = () => {
           if (t.includes("COLOR")) return "COLOR";
           if (t.includes("CODE")) return "CODE";
           if (t.includes("QR")) return "QR";
+          if (t.includes("SQL")) return "SQL";
           return t;
         })
         .join(" • ")
-    : "REGEXP • JSON • BASE64/URL • TIMESTAMP • UUID • JWT • DIFF • CODE • HASH • COLOR • QR";
+    : "REGEXP • JSON • BASE64/URL • TIMESTAMP • UUID • JWT • DIFF • CODE • HASH • COLOR • QR • SQL";
   
   // --- STATE FOR TASK PROGRESS ---
   const [taskStats, setTaskStats] = useState({ total: 0, completed: 0, percentage: 0 });

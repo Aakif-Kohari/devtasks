@@ -37,6 +37,7 @@ import HashGenerator from "./pages/DevUtilities/devutilities/HashGenerator";
 import ColorConverter from "./pages/DevUtilities/devutilities/ColorConverter";
 import QrCodeGenerator from "./pages/DevUtilities/devutilities/QrCodeGenerator";
 import UrlParserBuilder from "./pages/DevUtilities/devutilities/UrlParserBuilder";
+import SqlFormatter from "./pages/DevUtilities/devutilities/SqlFormatter";
 
 import { ThemeProvider, useTheme } from "./context/ThemeContext";
 import { CategoryProvider } from "./context/CategoryContext";
@@ -141,10 +142,11 @@ function AppInner({ toggleHUD, hudVisible }) {
             <Route path="/devutilities/color" element={<ColorConverter />} />
             <Route path="/devutilities/code" element={<CodeSandbox />} />
             <Route path="/devutilities/qrcode" element={<QrCodeGenerator />} />
-          <Route path="/devutilities/text-case" element={<TextCaseConverter />} />
-<Route path="/devutilities/mock-json" element={<MockJsonGenerator />} />
-<Route path="/devutilities/markdown-table" element={<MarkdownTableGenerator />} />
-<Route path="/devutilities/url-parser" element={<UrlParserBuilder />} />
+            <Route path="/devutilities/text-case" element={<TextCaseConverter />} />
+            <Route path="/devutilities/mock-json" element={<MockJsonGenerator />} />
+            <Route path="/devutilities/markdown-table" element={<MarkdownTableGenerator />} />
+            <Route path="/devutilities/url-parser" element={<UrlParserBuilder />} />
+            <Route path="/devutilities/sql" element={<SqlFormatter />} />
 
           </Routes>
         </div>

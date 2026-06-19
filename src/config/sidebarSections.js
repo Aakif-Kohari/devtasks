@@ -211,6 +211,11 @@ const SIDEBAR_SECTIONS = [
         description: "Generate mock JSON data",
         path: "/devutilities/mock-json-generator",
       },
+      {
+        label: "SQL Formatter",
+        description: "Format and minify SQL queries",
+        path: "/devutilities/sql",
+      },
     ],
   },
 ];
