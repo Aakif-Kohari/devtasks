@@ -251,6 +251,11 @@ const SIDEBAR_SECTIONS = [
         description: "Format sql queries comletely offline",
         path: "/devutilities/sql-formatter",
       },
+      {
+        label: "HTML Entity Converter",
+        description: "Encode/decode HTML entities",
+        path: "/devutilities/html-entity",
+      },
     ],
   },
 ];

@@ -535,12 +535,23 @@ const DevUtilities = () => {
       ),
     },
     {
-      title: "SQL Formatter",
-      description: "Format and validate SQL queries. Fully offline.",
-      path: "/devutilities/sql-formatter",
+      title: "SQL Formatter & Minifier",
+      description:
+        "Beautify messy SQL with proper keyword casing and indentation, or minify to a single line. Fully offline.",
+      path: "/devutilities/sql",
       icon: (
-        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h7v7H3V3zm11 0h7v7h-7V3zM3 14h7v7H3v-7zm13 0h1v1h-1v-1zm-3 0h1v1h-1v-1zm3 3h1v1h-1v-1zm-3 0h1v1h-1v-1zm3 3h1v1h-1v-1zm-3 0h1v1h-1v-1zm3-6h1v1h-1v-1z" />
+        <svg
+          className="w-6 h-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M4 7v10c0 2.21 3.58 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.58 4 8 4s8-1.79 8-4M4 7c0-2.21 3.58-4 8-4s8 1.79 8 4m0 5c0 2.21-3.58 4-8 4s-8-1.79-8-4"
+          />
         </svg>
       ),
     },
