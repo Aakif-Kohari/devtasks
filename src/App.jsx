@@ -1,5 +1,10 @@
 import { useState, useCallback } from "react";
-import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useLocation,
+} from "react-router-dom";
 import { Toaster } from "sonner";
 import Home from "./pages/Home";
 import Dashboard from "./pages/Dashboard";
@@ -52,6 +57,7 @@ import Sidebar from "./components/Sidebar";
 import "./index.css";
 import MockJsonGenerator from "./pages/DevUtilities/devutilities/MockJsonDataGenerator";
 import MarkdownTableGenerator from "./pages/DevUtilities/devutilities/MarkdownTableGenerator";
+import JsonSchemaValidator from "./pages/DevUtilities/devutilities/JsonSchemaValidator";
 
 function App() {
   const [hudVisible, setHudVisible] = useState(false);
@@ -108,7 +114,10 @@ function AppInner({ toggleHUD, hudVisible }) {
             <Route path="/taskmanage" element={<TaskManage />} />
             <Route path="/taskmanage/add-tasks" element={<AddTasks />} />
             <Route path="/taskmanage/list-tasks" element={<ListTasks />} />
-            <Route path="/taskmanage/delete-history" element={<DeleteHistory />} />
+            <Route
+              path="/taskmanage/delete-history"
+              element={<DeleteHistory />}
+            />
             <Route path="/taskmanage/data-center" element={<DataCenter />} />
 
             {/* Snippet Vault */}
@@ -116,30 +125,59 @@ function AppInner({ toggleHUD, hudVisible }) {
             <Route path="/snippetvault/add" element={<AddSnippet />} />
             <Route path="/snippetvault/edit/:id" element={<AddSnippet />} />
             <Route path="/snippetvault/list" element={<ListSnippets />} />
-            <Route path="/snippetvault/edit/:snippetid" element={<AddSnippet />} />
-            <Route path="/snippetvault/delete-history" element={<DeleteHistorySnippet />} />
-            <Route path="/snippetvault/data-center" element={<DataCenterSnippet />} />
+            <Route
+              path="/snippetvault/edit/:snippetid"
+              element={<AddSnippet />}
+            />
+            <Route
+              path="/devutilities/json-schema-validator"
+              element={<JsonSchemaValidator />}
+            />
+            <Route
+              path="/snippetvault/delete-history"
+              element={<DeleteHistorySnippet />}
+            />
+            <Route
+              path="/snippetvault/data-center"
+              element={<DataCenterSnippet />}
+            />
 
             {/* Resource Hub */}
             <Route path="/resourcehub" element={<ResourceHub />} />
             <Route path="/resourcehub/add" element={<AddResource />} />
             <Route path="/resourcehub/edit/:id" element={<AddResource />} />
             <Route path="/resourcehub/list" element={<ListResources />} />
-            <Route path="/resourcehub/delete-history" element={<DeleteHistoryResource />} />
-            <Route path="/resourcehub/data-center" element={<DataCenterResource />} />
+            <Route
+              path="/resourcehub/delete-history"
+              element={<DeleteHistoryResource />}
+            />
+            <Route
+              path="/resourcehub/data-center"
+              element={<DataCenterResource />}
+            />
 
             {/* Dev Utilities */}
             <Route path="/devutilities" element={<DevUtilities />} />
             <Route path="/devutilities/regex" element={<RegexTester />} />
             <Route path="/devutilities/json" element={<JsonFormatter />} />
             <Route
+              path="/devutilities/json-yaml"
+              element={<JsonYamlConverter />}
+            />
+            <Route
+              path="/devutilities/markdown"
+              element={<MarkdownPreviewer />}
+            />
               path="/devutilities/html-entity"
               element={<HtmlEntityConverter />}
             />
             <Route path="/devutilities/json-yaml" element={<JsonYamlConverter />} />
             <Route path="/devutilities/markdown" element={<MarkdownPreviewer />} />
             <Route path="/devutilities/base64" element={<Base64Url />} />
-            <Route path="/devutilities/timestamp" element={<TimestampConverter />} />
+            <Route
+              path="/devutilities/timestamp"
+              element={<TimestampConverter />}
+            />
             <Route path="/devutilities/uuid" element={<UuidGenerator />} />
             <Route path="/devutilities/jwt" element={<JwtDecoder />} />
             <Route path="/devutilities/diff" element={<DiffChecker />} />
@@ -147,6 +185,22 @@ function AppInner({ toggleHUD, hudVisible }) {
             <Route path="/devutilities/color" element={<ColorConverter />} />
             <Route path="/devutilities/code" element={<CodeSandbox />} />
             <Route path="/devutilities/qrcode" element={<QrCodeGenerator />} />
+            <Route
+              path="/devutilities/text-case"
+              element={<TextCaseConverter />}
+            />
+            <Route
+              path="/devutilities/mock-json"
+              element={<MockJsonGenerator />}
+            />
+            <Route
+              path="/devutilities/markdown-table"
+              element={<MarkdownTableGenerator />}
+            />
+            <Route
+              path="/devutilities/url-parser"
+              element={<UrlParserBuilder />}
+            />
             <Route path="/devutilities/text-case" element={<TextCaseConverter />} />
             <Route path="/devutilities/mock-json" element={<MockJsonGenerator />} />
             <Route path="/devutilities/markdown-table" element={<MarkdownTableGenerator />} />
