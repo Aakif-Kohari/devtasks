@@ -433,6 +433,18 @@ const DevUtilities = () => {
         </svg>
       ),
     },
+
+    {
+  title: "String Inspector",
+  description:
+    "Analyze character, word, sentence, and paragraph counts, byte size, reading/speaking time, and word frequency density.",
+  path: "/devutilities/string-inspector",
+  icon: (
+    <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 4h6m-6 16h6M5 8h2m10 0h2M5 16h2m10 0h2M7 4v16M17 4v16M7 12h10" />
+    </svg>
+  ),
+},
   ];
 
   // There are some duplicate cards, so I'm just leaving this here.
