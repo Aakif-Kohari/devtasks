@@ -97,25 +97,8 @@ function AppInner({ toggleHUD, hudVisible }) {
 
   // Flag to block scroll saving during route shifts and scroll restoration
   const isRestoringRef = useRef(false);
- 
-  // Temporary global scroll debugger
-  useEffect(() => {
-    const handleGlobalScroll = (e) => {
-      console.log(
-        "[Scroll Debug] scroll target:",
-        e.target,
-        "scrollTop:",
-        e.target.scrollTop,
-        "window.scrollY:",
-        window.scrollY,
-      );
-    };
-    window.addEventListener("scroll", handleGlobalScroll, true);
-    return () => window.removeEventListener("scroll", handleGlobalScroll, true);
-  }, []);
 
-=======
- 
+
   // Scroll restoration logic for inner scrollable content wrapper
   useEffect(() => {
     isRestoringRef.current = true;
@@ -127,40 +110,14 @@ function AppInner({ toggleHUD, hudVisible }) {
     const timers = [];
     if (savedPosition) {
       const targetScroll = parseInt(savedPosition, 10);
- 
-      console.log(
-        `[Scroll Restoration] Restoring ${location.pathname} to ${targetScroll}`,
-      );
-      scrollContainer.scrollTop = targetScroll;
 
-      timers.push(
-        setTimeout(() => {
-          scrollContainer.scrollTop = targetScroll;
-        }, 50),
-      );
-      timers.push(
-        setTimeout(() => {
-          scrollContainer.scrollTop = targetScroll;
-        }, 150),
-      );
-      timers.push(
-        setTimeout(() => {
-          scrollContainer.scrollTop = targetScroll;
-        }, 300),
-      );
-      timers.push(
-        setTimeout(() => {
-          scrollContainer.scrollTop = targetScroll;
-        }, 500),
-      );
-=======
       scrollContainer.scrollTop = targetScroll;
 
       timers.push(setTimeout(() => { scrollContainer.scrollTop = targetScroll; }, 50));
       timers.push(setTimeout(() => { scrollContainer.scrollTop = targetScroll; }, 150));
       timers.push(setTimeout(() => { scrollContainer.scrollTop = targetScroll; }, 300));
       timers.push(setTimeout(() => { scrollContainer.scrollTop = targetScroll; }, 500));
- 
+
     } else {
       scrollContainer.scrollTop = 0;
     }
@@ -169,12 +126,6 @@ function AppInner({ toggleHUD, hudVisible }) {
     const safetyTimeout = setTimeout(() => {
       if (isRestoringRef.current) {
         isRestoringRef.current = false;
- 
-        console.log(
-          `[Scroll Restoration] Safety timer enabled scroll saving for ${location.pathname}`,
-        );
-=======
- 
       }
     }, 800);
 
@@ -182,12 +133,6 @@ function AppInner({ toggleHUD, hudVisible }) {
     const handleUserInteraction = () => {
       if (isRestoringRef.current) {
         isRestoringRef.current = false;
- 
-        console.log(
-          `[Scroll Restoration] User interaction detected. Scroll saving enabled for ${location.pathname}`,
-        );
-=======
- 
       }
     };
 
@@ -217,12 +162,6 @@ function AppInner({ toggleHUD, hudVisible }) {
 
       if (saveTimeout) clearTimeout(saveTimeout);
       saveTimeout = setTimeout(() => {
- 
-        console.log(
-          `[Scroll Restoration] Saving ${location.pathname} position: ${currentScrollTop}`,
-        );
-=======
- 
         sessionStorage.setItem(`scroll_${location.pathname}`, currentScrollTop);
       }, 50);
     };
@@ -268,14 +207,9 @@ function AppInner({ toggleHUD, hudVisible }) {
           }
         >
           <Routes>
- 
-            <Route
-              path="/devutilities/user-agent"
-              element={<UserAgentParser />}
-            />
-=======
+
             <Route path="/devutilities/user-agent" element={<UserAgentParser />} />
- 
+
             <Route path="/" element={<Home />} />
             <Route path="/dashboard" element={<Dashboard />} />
 
@@ -355,13 +289,13 @@ function AppInner({ toggleHUD, hudVisible }) {
             <Route path="/devutilities/json-schema-validator" element={<JsonSchemaValidator />} />
             <Route path="/devutilities/cron" element={<CronExpression />} />
             <Route path="/devutilities/string-inspector" element={<StringInspector />} />
- 
+
             <Route
               path="/devutilities/css-gradient"
               element={<CssGradientGenerator />}
             />
             <Route path="*" element={<Navigate to="/" replace />} />
- 
+
           </Routes>
         </div>
       </div>

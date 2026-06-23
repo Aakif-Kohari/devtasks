@@ -130,22 +130,6 @@ const DevUtilities = () => {
             strokeWidth={2}
             d="M13.828 10.172a4 4 0 00-5.656 0l-2 2a4 4 0 105.656 5.656l2-2m-3.656-7.656l2-2a4 4 0 115.656 5.656l-2 2"
           />
- 
-          <svg
-            className="w-6 h-6"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-            />
-          </svg>
-=======
- 
         </svg>
       ),
     },
@@ -197,19 +181,6 @@ const DevUtilities = () => {
         "Encode and inspect JSON Web Token header and payload data directly in the browser, completely offline.",
       path: "/devutilities/jwt-encode",
       icon: (
-        <svg
-          className="w-6 h-6"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
-          />
-=======
         <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
         </svg>
@@ -283,23 +254,9 @@ const DevUtilities = () => {
       description:
         "Convert HEX, RGB, HSL, and CMYK colors, generate palettes, and verify WCAG contrast offline.",
       path: "/devutilities/color",
-      icon:(
-        <svg
-          className="w-6 h-6"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M12 3a9 9 0 100 18 9 9 0 000-18zm0 0c1.5 2 2 4 2 6s-.5 4-2 6c-1.5-2-2-4-2-6s.5-4 2-6zm-6.36 4.64c2.08.83 3.8 2.55 4.64 4.64-2.09-.83-3.81-2.55-4.64-4.64zm12.72 0c-.83 2.09-2.55 3.81-4.64 4.64.83-2.09 2.55-3.81 4.64-4.64z"
-          />
-=======
+      icon: (
         <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-3M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
-
         </svg>
       ),
     },
@@ -519,19 +476,6 @@ const DevUtilities = () => {
         "Generate flexbox and grid layouts for responsive design. Fully offline.",
       path: "/devutilities/flexbox-grid-generator",
       icon: (
-        <svg
-          className="w-6 h-6"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M3 3h7v7H3V3zm11 0h7v7h-7V3zM3 14h7v7H3v-7zm13 0h1v1h-1v-1zm-3 0h1v1h-1v-1zm3 3h1v1h-1v-1zm-3 0h1v1h-1v-1zm3 3h1v1h-1v-1zm-3 0h1v1h-1v-1zm3-6h1v1h-1v-1z"
-          />
-=======
         <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h3a1 1 0 011 1v6a1 1 0 01-1 1h-3a1 1 0 01-1-1v-6z" />
         </svg>
@@ -553,7 +497,7 @@ const DevUtilities = () => {
       description: "Generate and inspect CRON expressions. Fully offline.",
       path: "/devutilities/cron",
       icon: (
- 
+
         <svg
           className="w-6 h-6"
           fill="none"
@@ -575,22 +519,8 @@ const DevUtilities = () => {
         "Create beautiful CSS gradients with live preview and copy-ready code.",
       path: "/devutilities/css-gradient",
       icon: (
-        <svg
-          className="w-6 h-6"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M4 4h16v16H4V4zm0 0l16 16"
-          />
-=======
         <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
- 
         </svg>
       ),
     },
@@ -625,15 +555,9 @@ const DevUtilities = () => {
 
   // Splitting both favourite and other cards
   const favoriteSet = new Set(favoritePaths);
- 
-  const favoriteCards = uniqueCards.filter((card) =>
-    favoriteSet.has(card.path),
-  );
-  const otherCards = uniqueCards.filter((card) => !favoriteSet.has(card.path));
-=======
   const favoriteCards = filteredUniqueCards.filter((card) => favoriteSet.has(card.path));
   const otherCards = filteredUniqueCards.filter((card) => !favoriteSet.has(card.path));
- 
+
   const hasFavorites = favoriteCards.length > 0;
 
   // Mirror favorites back to localStorage whenever the list changes.
@@ -760,21 +684,6 @@ const DevUtilities = () => {
                     : "max-h-0 opacity-0 -translate-y-4 pointer-events-none"
                 }`}
               >
-                <div>
- 
-                  <h2 className="text-2xl font-black uppercase tracking-tight">
-                    Favourite Tools
-                  </h2>
-                  <p className="mt-1 text-sm font-medium text-zinc-500">
-                    Your saved tools appear here first.
-                  </p>
-                </div>
-                <div className="text-xs font-black uppercase tracking-widest text-zinc-500">
-                  {favoriteCards.length} item
-                  {favoriteCards.length === 1 ? "" : "s"}
-                </div>
-              </div>
-=======
                   <div className="mb-5 flex items-end justify-between gap-4">
                     <div>
                       <h2 className="text-2xl font-black uppercase tracking-tight">
@@ -788,7 +697,7 @@ const DevUtilities = () => {
                       {favoriteCards.length} item{favoriteCards.length === 1 ? "" : "s"}
                     </div>
                   </div>
- 
+
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 w-full">
                     {favoriteCards.map((card) => {
@@ -859,7 +768,6 @@ const DevUtilities = () => {
                       );
                     })}
                   </div>
-                </div>
               </section>
 
               <section>
